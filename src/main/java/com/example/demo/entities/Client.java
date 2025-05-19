@@ -2,6 +2,7 @@ package com.example.demo.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,13 @@ public class Client {
     private Long id;
 
     private String nom;
+    private String prenom;
     private String email;
+    private String telephone;
+    private String adresse;
+    private LocalDate dateNaissance;
+    private String profession;
+    private Double revenuMensuel;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Credit> credits;

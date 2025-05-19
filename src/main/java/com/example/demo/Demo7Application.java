@@ -28,7 +28,7 @@ public class Demo7Application {
     ) {
         return args -> {
             // Create and save a client
-           /* Client client = new Client(null, "Test User", "test@example.com", null);
+           Client client = new Client(null, "Test User", "test@example.com", null);
             client = clientRepository.save(client);
 
             // Create and save CreditPersonnel
@@ -93,7 +93,7 @@ public class Demo7Application {
 
             // Print all Remboursements
             System.out.println("All Remboursements:");
-            remboursementRepository.findAll().forEach(System.out::println);*/
+            remboursementRepository.findAll().forEach(System.out::println);
         };
     }
 }

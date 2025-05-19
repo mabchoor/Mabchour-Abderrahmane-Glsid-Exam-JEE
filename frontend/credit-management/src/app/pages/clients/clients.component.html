@@ -1,0 +1,119 @@
+<div class="container">
+  <div class="row mb-4">
+    <div class="col">
+      <h2>Clients Management</h2>
+    </div>
+    <div class="col text-end">
+      <button class="btn btn-primary" (click)="createClient()">
+        <i class="bi bi-plus"></i> New Client
+      </button>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Client Form -->
+  <div *ngIf="selectedClient" class="card mb-4">
+    <div class="card-header">
+      {{ isEditing ? 'Edit Client' : 'New Client' }}
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="saveClient()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="nom" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="nom" [(ngModel)]="selectedClient.nom" name="nom" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="prenom" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="prenom" [(ngModel)]="selectedClient.prenom" name="prenom" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" [(ngModel)]="selectedClient.email" name="email" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="telephone" class="form-label">Phone</label>
+            <input type="tel" class="form-control" id="telephone" [(ngModel)]="selectedClient.telephone" name="telephone" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="adresse" class="form-label">Address</label>
+          <input type="text" class="form-control" id="adresse" [(ngModel)]="selectedClient.adresse" name="adresse" required>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="profession" class="form-label">Profession</label>
+            <input type="text" class="form-control" id="profession" [(ngModel)]="selectedClient.profession" name="profession" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="revenuMensuel" class="form-label">Monthly Income</label>
+            <input type="number" class="form-control" id="revenuMensuel" [(ngModel)]="selectedClient.revenuMensuel" name="revenuMensuel" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="dateNaissance" class="form-label">Date of Birth</label>
+          <input type="date" class="form-control" id="dateNaissance" [(ngModel)]="selectedClient.dateNaissance" name="dateNaissance" required>
+        </div>
+        <div class="text-end">
+          <button type="button" class="btn btn-secondary me-2" (click)="cancel()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Clients Table -->
+  <div class="card">
+    <div class="card-header">
+      Clients List
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Profession</th>
+              <th>Monthly Income</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let client of clients">
+              <td>{{ client.id }}</td>
+              <td>{{ client.prenom }} {{ client.nom }}</td>
+              <td>{{ client.email }}</td>
+              <td>{{ client.telephone }}</td>
+              <td>{{ client.profession }}</td>
+              <td>{{ client.revenuMensuel | currency }}</td>
+              <td>
+                <button class="btn btn-sm btn-primary me-2" (click)="selectClient(client)">
+                  <i class="bi bi-pencil"></i> Edit
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="deleteClient(client.id!)">
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/clients")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ClientController {
     @Autowired
     private ClientRepository clientRepository;
@@ -42,27 +43,37 @@ public class ClientController {
     // Update client
     @PutMapping("/{id}")
     public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client clientDetails) {
-        Optional<Client> optionalClient = clientRepository.findById(id);
-        if (optionalClient.isEmpty()) return ResponseEntity.notFound().build();
-        Client client = optionalClient.get();
-        client.setNom(clientDetails.getNom());
-        client.setEmail(clientDetails.getEmail());
-        return ResponseEntity.ok(clientRepository.save(client));
+        return clientRepository.findById(id)
+                .map(existingClient -> {
+                    existingClient.setNom(clientDetails.getNom());
+                    existingClient.setPrenom(clientDetails.getPrenom());
+                    existingClient.setEmail(clientDetails.getEmail());
+                    existingClient.setTelephone(clientDetails.getTelephone());
+                    existingClient.setAdresse(clientDetails.getAdresse());
+                    existingClient.setDateNaissance(clientDetails.getDateNaissance());
+                    existingClient.setProfession(clientDetails.getProfession());
+                    existingClient.setRevenuMensuel(clientDetails.getRevenuMensuel());
+                    return ResponseEntity.ok(clientRepository.save(existingClient));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // Delete client
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
-        if (!clientRepository.existsById(id)) return ResponseEntity.notFound().build();
-        clientRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return clientRepository.findById(id)
+                .map(client -> {
+                    clientRepository.delete(client);
+                    return ResponseEntity.ok().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // Get all credits for a client
     @GetMapping("/{id}/credits")
     public ResponseEntity<List<Credit>> getCreditsByClient(@PathVariable Long id) {
-        Optional<Client> client = clientRepository.findById(id);
-        if (client.isEmpty()) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(client.get().getCredits());
+        return clientRepository.findById(id)
+                .map(client -> ResponseEntity.ok(client.getCredits()))
+                .orElse(ResponseEntity.notFound().build());
     }
 } 
