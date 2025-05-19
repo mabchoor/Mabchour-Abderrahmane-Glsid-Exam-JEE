@@ -8,6 +8,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true)
 public class CreditImmobilier extends Credit {
     // Getters and setters
     @Enumerated(EnumType.STRING)

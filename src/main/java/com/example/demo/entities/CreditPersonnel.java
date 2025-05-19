@@ -8,6 +8,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true)
 public class CreditPersonnel extends Credit {
     // Getters and setters
     private String motif;

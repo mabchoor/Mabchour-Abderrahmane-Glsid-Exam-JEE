@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "remboursements")
 public abstract class Credit {
     // Getters and setters
     @Id
